@@ -1,0 +1,24 @@
+<html>
+
+<head>
+  <link rel="stylesheet"
+    href="/webfile?css=ads/html/files/messaging-editor.css">
+  <link rel="stylesheet"
+    href="/webapps/commons/libs/bootstrap-3.3.5/css/bootstrap.min.css" />
+  <script src="/webapps/commons/libs/jquery.js"></script>
+  <script src="/webapps/commons/libs/bootstrap-3.3.5/js/bootstrap.js"></script>
+
+  <link rel="stylesheet" href="app.css">
+  <script src="/webapps/commons/libs/require.js"></script>
+  <script src="main.js"></script>
+  <script>
+    require(['messageCenterApp'], function(messageCenterApp) {});
+  </script>
+</head>
+
+<body id="messageCenterApp">
+  <ask-for-email v-if="showAskForEmail"></ask-for-email>
+  <div class="loadingWheel" v-if="showLoading"></div>
+</body>
+
+</html>
