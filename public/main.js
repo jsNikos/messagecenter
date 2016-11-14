@@ -1,16 +1,19 @@
 // config. require.js
 require.config({
-  baseUrl: '.',
+  baseUrl: window.baseUrl || '/webapps/messagecenter',
   paths: {
     Vue: '/webapps/commons/libs/vue.min',
     text: '/webapps/commons/libs/text',
-    css: '/webapps/commons/libs/css',    
-    AskForEmailComponent: 'AskForEmailComponent'
+    css: '/webapps/commons/libs/css',
+    q: '/webapps/commons/libs/q',
+    app: 'app',
+    AskForEmail: 'components/askForEmail/AskForEmail',
+    ConfirmDialog: 'components/confirmDialog/ConfirmDialog'
   },
   map: {
     '*': {
       'css': 'css'
     }
   },
-  urlArgs: 'version=' + 1
+  urlArgs: 'version=' + (window.releaseVersion || '')
 });

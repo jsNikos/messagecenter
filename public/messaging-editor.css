@@ -1,0 +1,143 @@
+.subject-panel, .message-panel, .delivery-method-panel, .recipients-section {
+	background: rgba(253, 253, 253, 1);
+  	margin: 10px;
+  	padding: 10px;
+  	border-radius: 8px;
+	width: 80%;
+	border: 1px solid #d9d9d9;
+}
+
+.subject-panel > p, .message-panel > p, .delivery-method-panel > p, .recipients-section > p {
+	font-weight: bold;
+	font-size: large;
+	margin-top: 0px;
+	margin-bottom: 3px;
+}
+
+	
+.add-recipient-panel > p {
+	font-size: medium;
+}
+
+.recipients-panel {
+	background-color: #fff;
+	border: 1px solid #d9d9d9;
+	min-height: 50px;
+	float: left;
+	width: 90%;	
+}
+
+.clear-all {
+	padding: 5px;
+	color: #fff;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.37);
+	margin: 5px;
+	border-radius: 30px;
+	font-size: small;
+	float: right;
+}
+
+.recipient-box {
+	background-color: #f5f5f5;
+  	border: 1px solid #d9d9d9;
+  	display: inline-block;
+  	white-space: nowrap;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 3px;
+	flow: left
+}
+
+.remove-btn {
+	padding: 5px;
+	color: #fff;
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.37);
+	margin: 5px;
+	border-radius: 30%;
+	font-size: x-small;
+}
+
+.store-filter-wrapper {
+	float: left;
+}
+
+.employees-table {
+	display: table;
+	padding-left: 30px;
+}
+
+.employee-table-line {
+	display: table-row;
+	padding-left: 30px;
+}
+
+.employee-table-line > div {
+	display: table-cell;
+	padding: 5px;
+}
+
+.clearFix {
+	clear: both;
+}
+
+/* Custom theme for jQuery UI tabs */
+.ui-widget {
+  	font-family: serif;
+  	font-size: 12pt;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: serif;
+	font-size: 10pt;
+}
+
+.ui-widget-header {
+  	border: 1px solid;
+  	background: #ADACAA;
+  	color: #ffffff;
+  	font-weight: bold;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+  	border: 1px solid;
+  	background: #ffffff;
+	font-weight: bold;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	color: #ffffff;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+  	color: #ADACAA;
+  	text-decoration: none;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+	color: #ADACAA;
+  	text-decoration: none;
+}
+
+.ui-state-hover a, .ui-state-hover a:hover {
+	color: #ADACAA;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover {
+	border: #000000;
+	background: #ffffff;
+}
+
+.loadingWheel{
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  background-image: url('/Image?name=loading.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
+}

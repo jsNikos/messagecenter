@@ -1,12 +1,12 @@
-define(['Vue', 'text!askForEmailComponent.html'], function(Vue, askForEmailComponentHTML) {
-  return AskForEmailComponent;
+define(['Vue', 'text!components/askForEmail/askForEmail.html'], function(Vue, askForEmailHTML) {
+  return AskForEmail;
 
-  function AskForEmailComponent() {
+  function AskForEmail() {
     var $dialog = undefined;
 
     return {
       replace: false,
-      template: askForEmailComponentHTML,
+      template: askForEmailHTML,
       data: function() {
         return {
           email: undefined,
@@ -16,7 +16,8 @@ define(['Vue', 'text!askForEmailComponent.html'], function(Vue, askForEmailCompo
       ready: handleReady,
       methods: {
         handleNotNowClicked: handleNotNowClicked,
-        handleOkClicked: handleOkClicked
+        handleOkClicked: handleOkClicked,
+        handleCloseClicked: handleCloseClicked
       }
     };
   }
@@ -24,6 +25,14 @@ define(['Vue', 'text!askForEmailComponent.html'], function(Vue, askForEmailCompo
   function handleReady() {
     $dialog = jQuery(this.$el).find('[role="dialog"]');
     $dialog.modal();
+  }
+
+  function handleCloseClicked() {
+    var vueScope = this;
+    $dialog.modal('hide');
+    $dialog.on('hidden.bs.modal', function() {
+      vueScope.$dispatch('email-edit-closed');
+    });
   }
 
   function handleNotNowClicked(event) {
