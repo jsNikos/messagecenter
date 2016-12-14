@@ -2,24 +2,30 @@
 
 <head>
 
-  <link rel="stylesheet"
-    href="/webapps/commons/libs/bootstrap-3.3.5/css/bootstrap.min.css" />
-  <script src="/webapps/commons/libs/jquery.js"></script>
-  <script src="/webapps/commons/libs/bootstrap-3.3.5/js/bootstrap.js"></script>
+	<link rel="stylesheet"
+		href="/webapps/commons/libs/bootstrap-3.3.5/css/bootstrap.min.css" />
+	<script src="/webapps/commons/libs/jquery.js"></script>
+	<script src="/webapps/commons/libs/bootstrap-3.3.5/js/bootstrap.js"></script>
 
-  <link rel="stylesheet" href="messaging-editor.css">
-  <script>
-    window.baseUrl = '.';
-  </script>
-  <script src="/webapps/commons/libs/require.js"></script>
-  <script src="main.js"></script>
-  <script>
-    require(['app'], function(app) {});
-  </script>
+	<link rel="stylesheet"
+		href="messaging-editor.css">
+	<script>
+		window.baseUrl = '.';
+	</script>
+	<script src="/webapps/commons/libs/require.js"></script>
+	<script src="main.js"></script>
+	<script>
+		window.handleError = function(err) {
+			err && window.console && console.log(err);
+		};
+		require(['app'], function(app) {});
+	</script>
 </head>
 
 <body id="messageCenterApp">
-  <div class="loadingWheel" v-if="showLoading"></div>
+	<recipient-list v-bind:recipients.sync="recipients"></recipient-list>
+	<employees-table v-bind:recipients.sync="recipients"></employees-table>
+	<!-- <div class="loadingWheel" v-if="showLoading"></div> -->
 </body>
 
 

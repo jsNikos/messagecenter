@@ -49,11 +49,12 @@ define(['Vue', 'text!components/askForEmail/askForEmail.html'], function(Vue, as
     showLoading();
 
     jQuery.ajax({
-      url: '/ws/messagingcenter/updateEmail',
-      data: {
-        email: vueScope.$data.email || ''
-      },
-      method: 'POST'
+      url: '/ws/integrated/v1/store/employees/',
+      data: JSON.stringify({
+        email: vueScope.$data.email
+      }),
+      method: 'PUT',
+      contentType: 'application/json'
     }).then(function() {
       $dialog.modal('hide');
       vueScope.$dispatch('email-edited', {

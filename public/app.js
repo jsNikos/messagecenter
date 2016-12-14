@@ -1,4 +1,5 @@
-define(['Vue', 'q'], function(Vue, q) {
+define(['Vue', 'q', 'EmployeesTable', 'RecipientList'],
+function(Vue, q, EmployeesTable, RecipientList) {
   return new MessageCenterApp();
 
   function MessageCenterApp() {
@@ -11,9 +12,14 @@ define(['Vue', 'q'], function(Vue, q) {
         showLoading: false,
         emailDelivery: undefined,
         employeeHasEmail: window.employeeHasEmail,
-        submitAction: undefined
+        submitAction: undefined,
+				recipients: []  // [Employee]
       },
       ready: handleReady,
+			components: {
+				'employees-table': EmployeesTable,
+				'recipient-list': RecipientList
+			},
       methods: {
         handleSendClicked: handleSendClicked,
         handleSaveClicked: handleSaveClicked,
@@ -23,10 +29,6 @@ define(['Vue', 'q'], function(Vue, q) {
 
     function handleReady() {
       vueScope = this;
-
-      window.handleError = function(err) {
-        err && window.console && console.log(err);
-      };
 
       window.showLoading = function() {
         vueScope.$data.showLoading = true;

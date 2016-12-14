@@ -1,0 +1,14 @@
+<div class="employees-table">
+	<div class="employee-table-line"
+		v-for="role in roles">
+		<div>{{role.name}}</div>
+		<div>
+			<multiselect v-bind:elements="role.employees"
+				display-prop="displayName"
+				element-key="name"
+				v-on:all-selected="handleAllSelected(role)"
+				v-on:all-deselected="handleAllDeselected(role)"
+				v-on:selection-changed="handleChanged"></multiselect>
+		</div>
+	</div>
+</div>

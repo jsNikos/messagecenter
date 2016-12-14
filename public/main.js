@@ -2,14 +2,24 @@
 require.config({
   baseUrl: window.baseUrl || '/webapps/messagecenter',
   paths: {
-    Vue: '/webapps/commons/libs/vue.min',
+    Vue: '/webapps/commons/libs/vue',
     text: '/webapps/commons/libs/text',
     css: '/webapps/commons/libs/css',
     q: '/webapps/commons/libs/q',
+		lodash: '/webapps/commons/libs/lodash',
     app: 'app',
     AskForEmail: 'components/askForEmail/AskForEmail',
-    ConfirmDialog: 'components/confirmDialog/ConfirmDialog'
+    ConfirmDialog: 'components/confirmDialog/ConfirmDialog',
+		EmployeesTable: 'components/employeesTable/EmployeesTable',
+		'bootstrap-multiselect': 'libs/bootstrap-multiselect/dist/js/bootstrap-multiselect',
+		MultiSelect: 'components/multiselect/MultiSelect',
+		RecipientList: 'components/recipientList/RecipientList'
   },
+	shim: {
+		'bootstrap-multiselect': {
+			deps: ['css!libs/bootstrap-multiselect/dist/css/bootstrap-multiselect']
+		}
+	},
   map: {
     '*': {
       'css': 'css'
