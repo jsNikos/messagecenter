@@ -1,4 +1,5 @@
 define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
+
 	var options = {
 		allSelectedText: 'All',
 		selectAllText: 'All',
@@ -7,7 +8,7 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 		enableCaseInsensitiveFiltering: true
 	};
 
-	return Vue.extend({
+	var component = Vue.extend({
 		replace: false,
 		template: '<select multiple="multiple"> \n' +
 			' <option v-for="element in elements" value={{element[elementKey]}} v-bind:selected="element._selected"> \n' +
@@ -17,19 +18,26 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 		ready: handleReady
 	});
 
-	function handleElementChanged(newVal, oldVal) {
-		debugger;  //TODO
-	}
+	var topics = {
+		REFRESH_SELECTS: 'refreshSelects'
+	};
 
+	return {
+		component: component,
+		topics: topics
+	};
+
+	function handleRefresh() {
+		var vueScope = this;
+		this.$nextTick(function(){
+			jQuery(vueScope.$el).find('select').multiselect('refresh');
+		});
+	}
 
 	function handleReady() {
 		var vueScope = this;
 
-
-		this.$nextTick(function(){
-				this.$watch('elements', handleElementChanged, {deep: true});  //TODO
-		});
-
+		this.$on(topics.REFRESH_SELECTS, handleRefresh);
 
 		var extOptions = _.assign({}, options, {
 			onSelectAll: handleAllSelected.bind(this),

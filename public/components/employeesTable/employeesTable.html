@@ -3,7 +3,7 @@
 		v-for="role in roles">
 		<div>{{role.name}}</div>
 		<div>
-			<multiselect v-bind:elements="role.employees"
+			<multiselect v-bind:elements="roleEmployee[role.name]"
 				display-prop="displayName"
 				element-key="name"
 				v-on:all-selected="handleAllSelected(role)"

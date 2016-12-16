@@ -6,14 +6,19 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			props: ['recipients'],
 			data: function() {
 				return {
-					employees: undefined
+					employees: undefined,
+					roles: undefined, // [Roles]
+					roleEmployee: undefined // {roleName -> [Employees]}
 				}
 			},
-			computed: {
-				roles: computeRoles
+			watch: {
+				'employees': {
+					handler: handleEmployeesChanged,
+					deep: true
+				}
 			},
 			components: {
-				multiselect: MultiSelect
+				multiselect: MultiSelect.component
 			},
 			methods: {
 				handleAllSelected: handleAllSelected,
@@ -23,14 +28,37 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			ready: handleReady
 		});
 
+		function handleReady() {
+			var vueScope = this;
+			fetchEmployees()
+				.then(function(employees) {
+					_.forEach(employees, enricheEmployee);
+					_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(employees));
+					vueScope.$data.employees = employees;
+					vueScope.$data.roles = computeRoles.call(vueScope);
+					vueScope.$data.roleEmployee = computeRoleEmployee.call(vueScope);
+				})
+				.catch(handleError);
+		}
+
+		function handleEmployeesChanged() {
+			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
+		}
+
+		function enricheEmployee(employee) {
+			employee._selected = false;
+		}
+
 		function handleAllSelected(role) {
-			addEmployeesToRecipients(role.employees, this.$data.recipients);
-			selectEmployees(role.employees);
+			var selectedEmployees = this.$data.roleEmployee[role.name];
+			addEmployeesToRecipients(selectedEmployees, this.$data.recipients);
+			selectEmployees(selectedEmployees);
 		}
 
 		function handleAllDeselected(role) {
-			removeEmployeesFromRecipients(role.employees, this.$data.recipients);
-			deselectEmployees(role.employees);
+			var deselectedEmployees = this.$data.roleEmployee[role.name];
+			removeEmployeesFromRecipients(deselectedEmployees, this.$data.recipients);
+			deselectEmployees(deselectedEmployees);
 		}
 
 		function handleChanged(employee, checked) {
@@ -43,29 +71,31 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			}
 		}
 
-		// @returns: [Role+{employees: [Employee]}]
 		function computeRoles() {
-			var rolesMap = {};
-			_.forEach(this.employees, function(employee) {
+			var roles = [];
+			_.forEach(this.$data.employees, function(employee) {
 				_.forEach(employee.roles, function(role) {
-					if (!rolesMap[role.name]) {
-						rolesMap[role.name] = role;
-						role.employees = [];
+					if (!_.find(roles, {
+							name: role.name
+						})) {
+						roles.push(role);
 					}
-					rolesMap[role.name].employees.push(employee);
 				});
 			});
-			return _.values(rolesMap);
+			return roles;
 		}
 
-		function handleReady() {
-			var vueScope = this;
-			fetchEmployees()
-				.then(function(employees) {
-					_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(employees));
-					vueScope.$data.employees = employees;
+		function computeRoleEmployee() {
+			var roleEmployee = {};
+			_.forEach(this.$data.employees, function(employee) {
+				_.forEach(employee.roles, function(role) {
+					if (!roleEmployee[role.name]) {
+						roleEmployee[role.name] = [];
+					}
+					roleEmployee[role.name].push(employee);
 				})
-				.catch(handleError);
+			});
+			return roleEmployee;
 		}
 
 		function addEmployeesToRecipients(employees, recipients) {

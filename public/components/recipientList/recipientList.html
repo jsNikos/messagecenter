@@ -1,7 +1,9 @@
 <div class="recipient-list">
 	<div class="recipients-panel">
-		<span v-for="recipient in recipients">{{recipient.displayName}}<span class="remove-btn">X</span></span>
+		<span v-for="recipient in recipients">{{recipient.displayName}}
+			<span class="remove-btn" v-on:click="handleRemove(recipient)">X</span>
+		</span>
 	</div>
-	<div class="clear-all">Clear All</div>
+	<div class="clear-all" v-on:click="handleRemoveAll">Clear All</div>
 	<div class="clearFix"></div>
 </div>
