@@ -1,21 +1,16 @@
-define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vue', 'MultiSelect', 'apiService'],
-	function(employeesTableHTML, _, q, Vue, MultiSelect, apiService) {
-		return Vue.extend({
+define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vue', 'MultiSelect'],
+	function(employeesTableHTML, _, q, Vue, MultiSelect) {
+		var component = Vue.extend({
 			replace: false,
 			template: employeesTableHTML,
-			props: ['recipients'],
+			props: ['recipients', 'employees'],
 			data: function() {
 				return {
-					employees: undefined,
-					roles: undefined, // [Roles]
 					roleEmployee: undefined // {roleName -> [Employees]}
 				}
 			},
-			watch: {
-				'employees': {
-					handler: handleEmployeesChanged,
-					deep: true
-				}
+			computed: {
+				roles: computeRoles, // [Role]
 			},
 			components: {
 				multiselect: MultiSelect.component
@@ -28,25 +23,27 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			ready: handleReady
 		});
 
+		var topics = {
+			EMPLOYEES_CHANGED: 'employeesChanged'
+		};
+
+		return {
+			component: component,
+			topics: topics
+		};
+
 		function handleReady() {
-			var vueScope = this;
-			apiService.fetchEmployees()
-				.then(function(employees) {
-					_.forEach(employees, enrichEmployee);
-					_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(employees));
-					vueScope.$data.employees = employees;
-					vueScope.$data.roles = computeRoles.call(vueScope);
-					vueScope.$data.roleEmployee = computeRoleEmployee.call(vueScope);
-				})
-				.catch(handleError);
+			this.$on(topics.EMPLOYEES_CHANGED, handleEmployeesChanged);
+			initModelFromEmployees.call(this);
 		}
 
 		function handleEmployeesChanged() {
+			initModelFromEmployees.call(this);
 			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
 		}
 
-		function enrichEmployee(employee) {
-			employee._selected = false;
+		function initModelFromEmployees() {
+			this.$data.roleEmployee = computeRoleEmployee.call(this);
 		}
 
 		function handleAllSelected(role) {
@@ -129,13 +126,6 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			_.forEach(employees, function(employee) {
 				employee._selected = false;
 			});
-		}
-
-		function applyRecipientSelection(employees, recipient) {
-			var employee = _.find(employees, {
-				name: recipient.employeeId
-			});
-			employee && (employee._selected = true);
 		}
 
 		function nextTick() {

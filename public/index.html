@@ -26,7 +26,7 @@
 	<recipient-list v-bind:recipients.sync="recipients"
 		v-on:remove-recipient="handleRemoveRecipient"
 		v-on:remove-all="handleRemoveAllRecipients"></recipient-list>
-	<employees-table v-bind:recipients.sync="recipients"></employees-table>
+	<employees-table v-bind:recipients.sync="recipients" v-bind:employees="employees"></employees-table>
 	<!-- <div class="loadingWheel" v-if="showLoading"></div> -->
 </body>
 
