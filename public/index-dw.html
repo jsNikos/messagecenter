@@ -1,0 +1,80 @@
+<html>
+
+<head>
+
+	<link rel="stylesheet"
+		href="/webapps/commons/libs/bootstrap-3.3.5/css/bootstrap.min.css" />
+	<script src="/webapps/commons/libs/jquery.js"></script>
+	<script src="/webapps/commons/libs/bootstrap-3.3.5/js/bootstrap.js"></script>
+
+	<link rel="stylesheet"
+		href="/webfile?css=ads/html/files/jsLibs/jquery-ui/jquery-ui-1.10.0.custom.min.css" />
+	<script src="/webfile?js=ads/html/files/jsLibs/jquery-ui/jquery-ui-1.10.0.custom.min.js"></script>
+
+	<link rel="stylesheet"
+		href="messaging-editor.css">
+	<script>
+		window.baseUrl = '.';
+	</script>
+	<script src="/webapps/commons/libs/require.js"></script>
+	<script src="main.js"></script>
+	<script>
+		window.handleError = function(err) {
+			err && window.console && console.log(err);
+		};
+		require(['app-dw'], function(app) {});
+	</script>
+</head>
+
+<body id="messageCenterApp">
+	<recipient-list v-bind:recipients.sync="recipients"
+		v-on:remove-recipient="handleRemoveRecipient"
+		v-on:remove-all="handleRemoveAllRecipients"></recipient-list>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#role-employees">Enterprise</a></li>
+			<li><a href="#store-employees">Store</a></li>
+		</ul>
+
+		<div id="role-employees">
+			<p>Select a store set:</p>
+			<select id="enterprise-storeSet"
+				v-model="selectedStoreSet">
+				<option v-for="storeSet in storeSets">{{storeSet}}</option>
+			</select>
+
+			<p> Select a role:</p>
+			<multiselect v-bind:elements="roles"
+				display-prop="name"
+				element-key="name"
+				v-on:all-selected="handleAllEnterpriseSelected"
+				v-on:all-deselected="handleAllEnterpriseDeselected"
+				v-on:selection-changed="handleEnterpriseRoleChanged"></multiselect>
+		</div>
+
+		<div id="store-employees">
+			<div class="store-filter-wrapper">
+				<p>Select a store:</p>
+				<select id="storeFilter"
+					name="store"
+					v-on:change="handleStoreChanged"
+					v-model="selectedStore">
+					<option v-for="store in stores"
+						v-bind:value="store">{{store}}</option>
+				</select>
+				<div class="loading"
+					style="display: none;">Loading</div>
+			</div>
+			<div class="employees-table"
+				style="display: none"></div>
+			<div class="clearFix"></div>
+		</div>
+	</div>
+
+</body>
+
+
+
+
+</html>

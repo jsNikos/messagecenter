@@ -1,5 +1,5 @@
-define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vue', 'MultiSelect'],
-	function(employeesTableHTML, _, q, Vue, MultiSelect) {
+define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vue', 'MultiSelect', 'apiService'],
+	function(employeesTableHTML, _, q, Vue, MultiSelect, apiService) {
 		return Vue.extend({
 			replace: false,
 			template: employeesTableHTML,
@@ -30,9 +30,9 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 
 		function handleReady() {
 			var vueScope = this;
-			fetchEmployees()
+			apiService.fetchEmployees()
 				.then(function(employees) {
-					_.forEach(employees, enricheEmployee);
+					_.forEach(employees, enrichEmployee);
 					_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(employees));
 					vueScope.$data.employees = employees;
 					vueScope.$data.roles = computeRoles.call(vueScope);
@@ -45,7 +45,7 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
 		}
 
-		function enricheEmployee(employee) {
+		function enrichEmployee(employee) {
 			employee._selected = false;
 		}
 
@@ -136,17 +136,6 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 				name: recipient.employeeId
 			});
 			employee && (employee._selected = true);
-		}
-
-		function fetchEmployees() {
-			return q.Promise(function(resolve, reject) {
-				jQuery.ajax({
-					url: '/ws/integrated/v1/store/employees/',
-					method: 'GET',
-					success: resolve,
-					error: reject
-				});
-			});
 		}
 
 		function nextTick() {

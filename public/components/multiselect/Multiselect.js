@@ -19,7 +19,8 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 	});
 
 	var topics = {
-		REFRESH_SELECTS: 'refreshSelects'
+		REFRESH_SELECTS: 'refreshSelects',
+		REBUILD: 'rebuild'
 	};
 
 	return {
@@ -29,8 +30,15 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 
 	function handleRefresh() {
 		var vueScope = this;
-		this.$nextTick(function(){
+		this.$nextTick(function() {
 			jQuery(vueScope.$el).find('select').multiselect('refresh');
+		});
+	}
+
+	function handleRebuild() {
+		var vueScope = this;
+		this.$nextTick(function() {
+			jQuery(vueScope.$el).find('select').multiselect('rebuild');
 		});
 	}
 
@@ -38,6 +46,7 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 		var vueScope = this;
 
 		this.$on(topics.REFRESH_SELECTS, handleRefresh);
+		this.$on(topics.REBUILD, handleRebuild);
 
 		var extOptions = _.assign({}, options, {
 			onSelectAll: handleAllSelected.bind(this),

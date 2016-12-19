@@ -8,12 +8,15 @@ require.config({
     q: '/webapps/commons/libs/q',
 		lodash: '/webapps/commons/libs/lodash',
     app: 'app',
+		'app-dw': 'app-dw',
     AskForEmail: 'components/askForEmail/AskForEmail',
     ConfirmDialog: 'components/confirmDialog/ConfirmDialog',
 		EmployeesTable: 'components/employeesTable/EmployeesTable',
 		'bootstrap-multiselect': 'libs/bootstrap-multiselect/dist/js/bootstrap-multiselect',
 		MultiSelect: 'components/multiselect/MultiSelect',
-		RecipientList: 'components/recipientList/RecipientList'
+		RecipientList: 'components/recipientList/RecipientList',
+		apiService: 'services/apiService',
+		MessageCenterService: 'services/MessageCenterService'
   },
 	shim: {
 		'bootstrap-multiselect': {
