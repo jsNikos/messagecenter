@@ -9,6 +9,12 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 					roleEmployee: undefined // {roleName -> [Employees]}
 				}
 			},
+			watch: {
+				'employees': {
+					handler: handleEmployeesChanged,
+					deep: true
+				}
+			},
 			computed: {
 				roles: computeRoles, // [Role]
 			},
@@ -19,31 +25,16 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 				handleAllSelected: handleAllSelected,
 				handleAllDeselected: handleAllDeselected,
 				handleChanged: handleChanged
-			},
-			ready: handleReady
+			}
 		});
 
-		var topics = {
-			EMPLOYEES_CHANGED: 'employeesChanged'
-		};
-
 		return {
-			component: component,
-			topics: topics
+			component: component
 		};
-
-		function handleReady() {
-			this.$on(topics.EMPLOYEES_CHANGED, handleEmployeesChanged);
-			initModelFromEmployees.call(this);
-		}
 
 		function handleEmployeesChanged() {
-			initModelFromEmployees.call(this);
-			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
-		}
-
-		function initModelFromEmployees() {
 			this.$data.roleEmployee = computeRoleEmployee.call(this);
+			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
 		}
 
 		function handleAllSelected(role) {

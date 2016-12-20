@@ -16,12 +16,6 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 					employees: [], // [Employee]
 					recipients: [] // [Employee]
 				},
-				watch: {
-					'employees': {
-						handler: handleEmployeesChanged,
-						deep: true
-					}
-				},
 				ready: handleReady,
 				components: {
 					'employees-table': EmployeesTable.component,
@@ -54,10 +48,6 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 					name: recipient.employeeId
 				});
 				employee && (employee._selected = true);
-			}
-
-			function handleEmployeesChanged() {
-				this.$broadcast(EmployeesTable.topics.EMPLOYEES_CHANGED);
 			}
 
 			function enrichEmployee(employee) {
