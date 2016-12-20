@@ -62,13 +62,13 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 		function computeRoles() {
 			var roles = [];
 			_.forEach(this.$data.employees, function(employee) {
-				_.forEach(employee.roles, function(role) {
-					if (!_.find(roles, {
-							name: role.name
-						})) {
-						roles.push(role);
-					}
+				var role = employee.defaultRole;
+				var roleExists = _.find(roles, {
+					name: role.name
 				});
+				if (!roleExists) {
+					roles.push(role);
+				}
 			});
 			return roles;
 		}
@@ -76,12 +76,11 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 		function computeRoleEmployee() {
 			var roleEmployee = {};
 			_.forEach(this.$data.employees, function(employee) {
-				_.forEach(employee.roles, function(role) {
-					if (!roleEmployee[role.name]) {
-						roleEmployee[role.name] = [];
-					}
-					roleEmployee[role.name].push(employee);
-				})
+				var role = employee.defaultRole;
+				if (!roleEmployee[role.name]) {
+					roleEmployee[role.name] = [];
+				}
+				roleEmployee[role.name].push(employee);
 			});
 			return roleEmployee;
 		}

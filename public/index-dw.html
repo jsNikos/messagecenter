@@ -66,8 +66,9 @@
 				<div class="loading"
 					style="display: none;">Loading</div>
 			</div>
-			<div class="employees-table"
-				style="display: none"></div>
+
+			<employees-table v-bind:recipients.sync="recipients" v-bind:employees="storeEmployees"></employees-table>
+
 			<div class="clearFix"></div>
 		</div>
 	</div>

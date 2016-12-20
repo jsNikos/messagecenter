@@ -29,7 +29,7 @@ app.use('/users', users);
 
 
 var proxy = require('http-proxy').createProxyServer({
-  target: 'http://localhost:9090',
+  target: 'http://localhost',
 	secure: false
 })
 .on('error', console.log);

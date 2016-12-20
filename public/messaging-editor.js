@@ -18,7 +18,7 @@ function getStoreEmployees() {
     	$('.loading').hide();
     	var roles = {};
         $.each(response.employees, function(idx, employee) {
-        	var role = employee.role;
+        	var role = employee.defaultRole.name;
         	if (roles[role]) {
         		roles[role].push(employee);
         	} else {

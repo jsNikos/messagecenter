@@ -21,11 +21,11 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 					roles: undefined, // [{name: string}]
 					stores: undefined, // [string]
 					selectedStore: undefined, // string
-					storeEmployees: undefined // {storeName -> [Employee]}
+					storeEmployees: undefined // [Employee]
 				},
 				ready: handleReady,
 				components: {
-					'employees-table': EmployeesTable,
+					'employees-table': EmployeesTable.component,
 					'recipient-list': RecipientList,
 					'multiselect': MultiSelect.component
 				},
@@ -42,19 +42,26 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 				}
 			});
 
-			function handleStoreChanged(){
+			function handleStoreChanged() {
+				var vueScope = this;
+				var storeName = this.$data.selectedStore;
+				apiService.fetchStoreEmployees(storeName)
+					.then(function(resp) {
+						_.forEach(resp.employees, enrichEmployee.bind(vueScope, storeName));
+						vueScope.$data.storeEmployees = resp.employees;
+					})
+					.catch(handleError);
+			}
+
+			function handleAllEnterpriseSelected() {
 				//TODO
 			}
 
-			function handleAllEnterpriseSelected(){
+			function handleAllEnterpriseDeselected() {
 				//TODO
 			}
 
-			function handleAllEnterpriseDeselected(){
-				//TODO
-			}
-
-			function handleEnterpriseRoleChanged(role, checked){
+			function handleEnterpriseRoleChanged(role, checked) {
 				//TODO
 			}
 
@@ -69,6 +76,11 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 						vueScope.$broadcast(MultiSelect.topics.REBUILD);
 					})
 					.catch(handleError);
+			}
+
+			function enrichEmployee(storeName, employee) {
+				employee._selected = false;
+				employee._storeName = storeName;
 			}
 
 			function createRole(roleName) {

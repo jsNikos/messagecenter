@@ -3,6 +3,20 @@ define(['q'], function(q) {
 
 	function ApiService() {
 
+		this.fetchStoreEmployees = function(storeName) {
+			return q.Promise(function(resolve, reject) {
+				jQuery.ajax({
+					url: '/ws/messagingcenter/storeemployees',
+					method: 'GET',
+					data: {
+						store: storeName
+					},
+					success: resolve,
+					error: reject
+				});
+			});
+		};
+
 		this.findDWMessagesEditorInit = function() {
 			return q.Promise(function(resolve, reject) {
 				jQuery.ajax({
