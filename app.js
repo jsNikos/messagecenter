@@ -29,7 +29,7 @@ app.use('/users', users);
 
 
 var proxy = require('http-proxy').createProxyServer({
-  target: 'http://localhost',
+  target: 'http://localhost:9090',
 	secure: false
 })
 .on('error', console.log);
@@ -41,7 +41,6 @@ app.all('/webfile?**', (req, res) => {
   proxy.web(req, res);
 });
 app.all('/ws/**', (req, res) => {
-	console.log('aaaaaaaaaaaa');
   proxy.web(req, res);
 });
 app.all('/Image?**', (req, res) => {

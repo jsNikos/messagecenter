@@ -44,8 +44,8 @@ define(['apiService', 'lodash', 'q', 'utils'], function(apiService, _, q, utils)
 
 		function submitForm() {
 			this.$nextTick(function() {
-				apiService.submitForm(this.$data.recipients);
-			});
+				apiService.submitForm(this.$data.recipients, this.$data.enterpriseRecipients);
+			}.bind(this));
 		}
 
 		function askForEmail() {

@@ -48,7 +48,7 @@ define(['q'], function(q) {
 			return true;
 		}
 
-		this.submitForm = function(recipients) {
+		this.submitForm = function(recipients, enterpriseRecipients) {
 			appendRecipientsToForm(recipients);
 			jQuery('form[name="MessageEditor"]').submit();
 		};

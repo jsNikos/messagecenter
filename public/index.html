@@ -20,10 +20,12 @@
 </head>
 
 <body id="messageCenterApp">
+	<form name="MessageEditor" action="MessageEditor" method="POST">
 	<recipient-list v-bind:recipients.sync="recipients"></recipient-list>
 	<employees-table v-bind:recipients.sync="recipients"
 		v-bind:employees="employees"></employees-table>
 	<!-- <div class="loadingWheel" v-if="showLoading"></div> -->
+</form>
 </body>
 
 

@@ -1,4 +1,5 @@
 var recipients = [];
+var existingRecipients = [];
 
 jQuery(function(){
 	require(['app'], function(){});
@@ -172,7 +173,8 @@ function removeAllRecipients() {
 	recipients = [];
 }
 
-function initRecipientsPanel(existingRecipients) {
+function initRecipientsPanel(_existingRecipients) {
+	existingRecipients = _existingRecipients;
 	$.each(existingRecipients, function(idx, existingRecipient) {
 		$('<span>', {
 			class: 'recipient-box',

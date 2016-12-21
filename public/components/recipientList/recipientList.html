@@ -1,6 +1,6 @@
 <div class="recipient-list">
 	<div class="recipients-panel">
-		<span v-for="recipient in recipients">{{recipient.displayName}}
+		<span class="recipient-box" v-for="recipient in recipients">{{recipient.displayName}}
 			<span class="remove-btn" v-on:click="handleRemove(recipient)">X</span>
 		</span>
 	</div>

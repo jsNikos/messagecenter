@@ -86,9 +86,10 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 
 		function addEmployeesToRecipients(employees, recipients) {
 			_.forEach(employees, function(employee) {
-				if (!_.find(recipients, {
-						name: employee.name
-					})) {
+				var recipientExists = _.find(recipients, {
+					name: employee.name
+				});
+				if (!recipientExists) {
 					recipients.push(employee);
 				}
 			});

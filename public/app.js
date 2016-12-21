@@ -36,16 +36,25 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 							enrichEmployee(employee);
 							vueScope.$data.employees.push(employee);
 						});
-						_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(vueScope, employees));
+						applyExistingRecipients.call(vueScope);
 					})
 					.catch(utils.handleError);
 			}
 
-			function applyRecipientSelection(employees, recipient) {
-				var employee = _.find(employees, {
-					name: recipient.employeeId
+			function applyExistingRecipients() {
+				var vueScope = this;
+				if (!window.existingRecipients) {
+					return;
+				}
+				_.forEach(existingRecipients, function(existingRecipient) {
+					var employee = _.find(vueScope.$data.employees, {
+						name: existingRecipient.employeeId
+					});
+					if (employee) {
+						employee._selected = true;
+						vueScope.$data.recipients.push(employee);
+					}
 				});
-				employee && (employee._selected = true);
 			}
 
 			function enrichEmployee(employee) {
