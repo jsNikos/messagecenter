@@ -1,5 +1,5 @@
-define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiService'],
-	function(Vue, EmployeesTable, RecipientList, MessageCenterService, apiService) {
+define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiService', 'utils'],
+	function(Vue, EmployeesTable, RecipientList, MessageCenterService, apiService, utils) {
 		return new MessageCenterApp();
 
 		function MessageCenterApp() {
@@ -24,9 +24,7 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 				methods: {
 					handleSendClicked: messageCenterService.handleSendClicked,
 					handleSaveClicked: messageCenterService.handleSaveClicked,
-					handleDeleteClicked: messageCenterService.handleDeleteClicked,
-					handleRemoveRecipient: messageCenterService.handleRemoveRecipient,
-					handleRemoveAllRecipients: messageCenterService.handleRemoveAllRecipients
+					handleDeleteClicked: messageCenterService.handleDeleteClicked
 				}
 			});
 
@@ -40,7 +38,7 @@ define(['Vue', 'EmployeesTable', 'RecipientList', 'MessageCenterService', 'apiSe
 						});
 						_.forEach(vueScope.$data.recipients, applyRecipientSelection.bind(vueScope, employees));
 					})
-					.catch(handleError);
+					.catch(utils.handleError);
 			}
 
 			function applyRecipientSelection(employees, recipient) {

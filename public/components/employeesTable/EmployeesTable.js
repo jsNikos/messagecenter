@@ -34,7 +34,6 @@ define(['text!components/employeesTable/employeesTable.html', 'lodash', 'q', 'Vu
 
 		function handleEmployeesChanged() {
 			this.$data.roleEmployee = computeRoleEmployee.call(this);
-			this.$broadcast(MultiSelect.topics.REFRESH_SELECTS);
 		}
 
 		function handleAllSelected(role) {

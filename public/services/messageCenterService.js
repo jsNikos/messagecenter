@@ -1,4 +1,4 @@
-define(['apiService', 'lodash', 'q'], function(apiService, _, q) {
+define(['apiService', 'lodash', 'q', 'utils'], function(apiService, _, q, utils) {
 	return MessageCenterService;
 
 	function MessageCenterService() {
@@ -15,13 +15,6 @@ define(['apiService', 'lodash', 'q'], function(apiService, _, q) {
 			}
 		};
 
-		this.handleRemoveAllRecipients = function() {
-			_.forEach(this.$data.recipients, function(recipient) {
-				recipient._selected = false;
-			});
-			this.$data.recipients.splice(0, this.$data.recipients.length);
-		};
-
 		this.handleSaveClicked = function() {
 			this.$data.submitAction = 'Save';
 			if (!this.$data.employeeHasEmail && this.$data.emailDelivery) {
@@ -35,7 +28,7 @@ define(['apiService', 'lodash', 'q'], function(apiService, _, q) {
 			this.$data.submitAction = 'Delete';
 			confirmDelete()
 				.then(submitForm.bind(this))
-				.catch(handleError);
+				.catch(utils.handleError);
 		};
 
 		this.handleSendClicked = function() {
@@ -43,20 +36,10 @@ define(['apiService', 'lodash', 'q'], function(apiService, _, q) {
 			if (!this.$data.employeeHasEmail && this.$data.emailDelivery) {
 				askForEmail()
 					.then(submitForm.bind(this))
-					.catch(handleError);
+					.catch(utils.handleError);
 			} else {
 				submitForm.call(this);
 			}
-		};
-
-		this.handleRemoveRecipient = function(recipient) {
-			var idx = _.findIndex(this.$data.recipients, {
-				name: recipient.name
-			});
-			if (idx > -1) {
-				this.$data.recipients.splice(idx, 1);
-			}
-			recipient._selected = false;
 		};
 
 		function submitForm() {

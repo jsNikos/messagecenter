@@ -15,8 +15,10 @@ require.config({
 		'bootstrap-multiselect': 'libs/bootstrap-multiselect/dist/js/bootstrap-multiselect',
 		MultiSelect: 'components/multiselect/MultiSelect',
 		RecipientList: 'components/recipientList/RecipientList',
+		DwRecipientList: 'components/dwRecipientList/DwRecipientList',
 		apiService: 'services/apiService',
-		MessageCenterService: 'services/MessageCenterService'
+		MessageCenterService: 'services/MessageCenterService',
+		utils: 'utils/utils'
   },
 	shim: {
 		'bootstrap-multiselect': {

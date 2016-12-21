@@ -1,4 +1,4 @@
-define(['Vue', 'text!components/recipientList/recipientList.html'], function(Vue, recipientListHTML){
+define(['Vue', 'text!components/recipientList/recipientList.html'], function(Vue, recipientListHTML) {
 	return Vue.extend({
 		replace: true,
 		template: recipientListHTML,
@@ -10,11 +10,20 @@ define(['Vue', 'text!components/recipientList/recipientList.html'], function(Vue
 	});
 
 	function handleRemove(recipient) {
-		this.$emit('remove-recipient', recipient);
+		var idx = _.findIndex(this.$data.recipients, {
+			name: recipient.name
+		});
+		if (idx > -1) {
+			this.$data.recipients.splice(idx, 1);
+		}
+		recipient._selected = false;
 	}
 
-	function handleRemoveAll(){
-		this.$emit('remove-all');
+	function handleRemoveAll() {
+		_.forEach(this.$data.recipients, function(recipient) {
+			recipient._selected = false;
+		});
+		this.$data.recipients.splice(0, this.$data.recipients.length);
 	}
 
 });

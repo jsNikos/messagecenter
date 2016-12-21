@@ -19,8 +19,7 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 	});
 
 	var topics = {
-		REFRESH_SELECTS: 'refreshSelects',
-		REBUILD: 'rebuild'
+		REFRESH_SELECTS: 'refreshSelects'
 	};
 
 	return {
@@ -35,18 +34,16 @@ define(['lodash', 'q', 'Vue', 'bootstrap-multiselect'], function(_, q, Vue) {
 		});
 	}
 
-	function handleRebuild() {
-		var vueScope = this;
-		this.$nextTick(function() {
-			jQuery(vueScope.$el).find('select').multiselect('rebuild');
-		});
-	}
-
 	function handleReady() {
 		var vueScope = this;
 
 		this.$on(topics.REFRESH_SELECTS, handleRefresh);
-		this.$on(topics.REBUILD, handleRebuild);
+
+		this.$watch('elements', function() {
+			jQuery(vueScope.$el).find('select').multiselect('rebuild');
+		}, {
+			deep: true
+		});
 
 		var extOptions = _.assign({}, options, {
 			onSelectAll: handleAllSelected.bind(this),

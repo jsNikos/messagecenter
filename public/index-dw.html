@@ -19,17 +19,14 @@
 	<script src="/webapps/commons/libs/require.js"></script>
 	<script src="main.js"></script>
 	<script>
-		window.handleError = function(err) {
-			err && window.console && console.log(err);
-		};
 		require(['app-dw'], function(app) {});
 	</script>
 </head>
 
 <body id="messageCenterApp">
-	<recipient-list v-bind:recipients.sync="recipients"
-		v-on:remove-recipient="handleRemoveRecipient"
-		v-on:remove-all="handleRemoveAllRecipients"></recipient-list>
+	<dw-recipient-list v-bind:recipients.sync="recipients"
+		v-on:remove-all="handleRemoveAll"
+		v-bind:enterprise-recipients.sync="enterpriseRecipients"></dw-recipient-list>
 
 	<div id="tabs">
 		<ul>
@@ -37,21 +34,24 @@
 			<li><a href="#store-employees">Store</a></li>
 		</ul>
 
+
 		<div id="role-employees">
 			<p>Select a store set:</p>
 			<select id="enterprise-storeSet"
-				v-model="selectedStoreSet">
+				v-model="selectedStoreSet"
+				v-on:change="handleStoreSetChanged(selectedStoreSet)">
 				<option v-for="storeSet in storeSets">{{storeSet}}</option>
 			</select>
 
 			<p> Select a role:</p>
-			<multiselect v-bind:elements="roles"
+			<multiselect v-bind:elements.sync="enterpriseRoles"
 				display-prop="name"
 				element-key="name"
 				v-on:all-selected="handleAllEnterpriseSelected"
 				v-on:all-deselected="handleAllEnterpriseDeselected"
 				v-on:selection-changed="handleEnterpriseRoleChanged"></multiselect>
 		</div>
+
 
 		<div id="store-employees">
 			<div class="store-filter-wrapper">
@@ -67,10 +67,11 @@
 					style="display: none;">Loading</div>
 			</div>
 
-			<employees-table v-bind:recipients.sync="recipients" v-bind:employees="storeEmployees"></employees-table>
-
+			<employees-table v-bind:recipients.sync="recipients"
+				v-bind:employees="storeEmployees"></employees-table>
 			<div class="clearFix"></div>
 		</div>
+
 	</div>
 
 </body>

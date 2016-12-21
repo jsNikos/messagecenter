@@ -1,4 +1,4 @@
-define(['Vue', 'text!components/askForEmail/askForEmail.html'], function(Vue, askForEmailHTML) {
+define(['Vue', 'text!components/askForEmail/askForEmail.html', 'utils'], function(Vue, askForEmailHTML, utils) {
 	return {
 		replace: false,
 		template: askForEmailHTML,
@@ -61,7 +61,7 @@ define(['Vue', 'text!components/askForEmail/askForEmail.html'], function(Vue, as
 			if (err.status === 409) {
 				vueScope.$data.validationMsg = err.responseJSON.errors;
 			} else {
-				handleError(err);
+				utils.handleError(err);
 			}
 			hideLoading();
 		});
